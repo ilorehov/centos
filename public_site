@@ -1,0 +1,19 @@
+#ПЕРЕМЕННЫЕ
+$source = "__" #Путь, откуда копируем
+$purpose = "__" #Путь, куда копируем
+$site = "__" #Наименование сайта в IIS
+
+#ДЕЛАЕМ КОПИЮ ТЕКУЩЕГО САЙТА
+Compress-Archive -Path $purpose -DestinationPath C:\backup_last_$site.zip -CompressionLevel Optimal -Force
+
+#ОЧИСТКА ПАПКИ ТЕКУЩЕГО САЙТА
+Remove-Item "$purpose\*" -Force -Recurse
+
+#ОСТАНАВЛИВАЕМ НУЖНЫЙ САЙТ
+Stop-Website $site
+
+#КОПИРУЕМ ФАЙЛЫ НОВОГО САЙТА В РАБОЧУЮ ПАПКУ
+Copy-Item $source* -Recurse $purpose
+
+#ЗАПУСКАЕМ НУЖНЫЙ САЙТ
+Start-Website $site
