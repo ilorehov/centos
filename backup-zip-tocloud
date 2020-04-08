@@ -1,0 +1,7 @@
+$date = get-date -Format yyyy-MM-dd-hh-mm
+$Source = "D:\Hour"
+$file = Get-ChildItem -Path $Source | Sort-Object LastWriteTime | Select-Object -Last 1
+$Destination = "___ _$date.zip"
+$f = "___$file"
+dir $f| Compress-7Zip -ArchiveFileName $Destination -Format Zip
+Compress-7Zip -Path $f -ArchiveFileName $Destination -Format Zip
